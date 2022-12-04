@@ -25,12 +25,12 @@ import {persiste, leedata} from './utils/util.js'
 
 
 const args= minimist(process.argv.slice(2))
-/* const port = args._[0] || 8080 */
+
 
 const port = process.env.PORT || 8080
-/* const mongoSesion= process.env.MONGOSESION */
+
 const mongoSesion= process.env.MONGOURI
-/* const mongoUsuario=process.env.MONGOUSER */
+
 const mongoUsuario=process.env.MONGOURI
 
 

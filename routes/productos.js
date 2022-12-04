@@ -1,23 +1,10 @@
+import {getProductos, postProductos} from '../controllers/controler.js';
 import { Router } from "express";
 const product = Router();
 
-import {leedata} from '../utils/util.js';
+product.get('/', getProductos)
 
-const productos=leedata('./data/prod2.json');
-
-product.get('/', (req, res)=>{
-    
-    const usuario=req.session.user
-    if (!usuario) {return res.redirect('/')}
-    res.render('index', {productos, usuario});
-    
-})
-
-product.post('/', (req, res)=>{
-
-    productos.push(req.body)
-
-})
+product.post('/', postProductos)
 
 
 export default product

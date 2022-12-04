@@ -1,10 +1,7 @@
+import {prodTest} from '../controllers/controler.js';
 import { Router } from "express";
 const productosTest = Router();
 
-import prodsFake from '../utils/productosFake.js';
-
-productosTest.get('/', (req, res)=>{
-    res.render('tablaFake', {prodsFake})
-});
+productosTest.get('/', prodTest);
 
 export default productosTest;
