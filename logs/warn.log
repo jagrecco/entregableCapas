@@ -27,3 +27,5 @@
 [2022-12-04T20:04:32.457Z  Level: [33mwarn[39m  Método: GET Ruta inexistente: /favicon.ico]
 [2022-12-04T21:05:01.399Z  Level: [33mwarn[39m  Método: GET Ruta inexistente: /api/productos-tes]
 [2022-12-04T21:05:13.248Z  Level: [33mwarn[39m  Método: GET Ruta inexistente: /api/productos-tes]
+[2022-12-04T23:08:00.442Z  Level: [31merror[39m  ERROR AL INTENTAR ENVIAR CHAT: [object Object]:  ReferenceError: io is not defined ]
+[2022-12-05T01:03:06.001Z  Level: [33mwarn[39m  Método: GET Ruta inexistente: /favicon.ico]

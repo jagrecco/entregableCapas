@@ -16,12 +16,12 @@ import mongoose from "mongoose";
 import passport from "passport";
 import compression from "compression";
 import logger from "./loggers/logger.js";
+import {chat} from "./controllers/chatController.js";
 
 import ruta from "./routes/index.js";
 
 import './middleware/passport.js'
-
-import {persiste, leedata} from './utils/util.js'
+import './data/mongoConect.js'
 
 
 const args= minimist(process.argv.slice(2))
@@ -30,15 +30,7 @@ const args= minimist(process.argv.slice(2))
 const port = process.env.PORT || 8080
 
 const mongoSesion= process.env.MONGOURI
-
-const mongoUsuario=process.env.MONGOURI
-
-
-let productos=[]
-let mensajes=[]
-
-leedata('./data/prod2.json').then((result) => {productos=result})
-leedata('./data/mensajes.json').then((result) => {mensajes=result})
+/* const mongoUsuario=process.env.MONGOURI */
 
 // inicialización
 const app = express();
@@ -53,17 +45,6 @@ app.set('json spaces', 2)
 app.use(compression());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("./public"));
-
-mongoose
-  .connect(mongoUsuario,{ useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    try {
-      logger.info(`${mongoUsuario} connectada`)
-    } catch (error) {
-      logger.error(`Erro al conectar con ${mongoUsuario}:  ${error}`)
-    }
-  })
-  .catch((err) => console.log(err));
 
 app.use(
   session({
@@ -95,30 +76,4 @@ httpServer.listen(port, (error) => {
 });
 
 // Servidor socket
-io.on("connection", (socket) => {
-
-  logger.info(`¡Nuevo cliente conectado!`)
-  socket.emit("mensajes", mensajes);
-  socket.emit("productos", productos);
-
-  socket.on("mensaje", (data) => {
-    try {
-      mensajes.push(data)
-      persiste('./data/mensajes.json', mensajes)
-      io.sockets.emit("mensajes", mensajes);
-    } catch (error) {
-      logger.error(`ERROR AL INTENTAR ENVIAR CHAT: ${data}:  ${error} `)
-    }
-  });
-
-  socket.on("producto", (prod) => {
-    try {
-      productos.push(prod)
-      io.sockets.emit("productos", productos);
-    } catch (error) {
-      logger.error(`ERROR AL INTENTAR ENVIAR PRODUCTO: ${prod}:  ${error} `)
-    }
-
-  });
-
-});
+io.on("connection", chat);
